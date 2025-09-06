@@ -1,0 +1,95 @@
+// TODO: Named function for addition
+function add(a, b) {
+  return a + b;
+}
+
+// TODO: Anonymous function for subtraction
+const subtract = function(a, b) {
+  return a - b;
+};
+
+// TODO: Arrow function for multiplication
+const multiply = (a, b) => a * b;
+
+// TODO: Named function for division (with zero check)
+function divide(a, b) {
+  if (b === 0) {
+    return "Error: Division by zero";
+  }
+  return a / b;
+}
+
+
+const calculator = {
+  equation: "",
+  add: add,
+  subtract: subtract,
+  multiply: multiply,
+  divide: divide,
+
+  // TODO: updateEquation method
+  updateEquation: function(value) {
+    this.equation += value;
+    document.getElementById("equation").value = this.equation;
+  },
+
+  // TODO: clearEquation method
+  clearEquation: function() {
+    this.equation = "";
+    document.getElementById("equation").value = this.equation;
+  },
+
+  // TODO: calculate method
+  calculate: function() {
+    const parts = this.equation.split(" ");
+    const a = parseFloat(parts[0]);
+    const op = parts[1];
+    const b = parseFloat(parts[2]);
+    let result;
+
+    switch (op) {
+      case "+":
+        result = this.add(a, b);
+        break;
+      case "-":
+        result = this.subtract(a, b);
+        break;
+      case "*":
+        result = this.multiply(a, b);
+        break;
+      case "/":
+        result = this.divide(a, b);
+        break;
+      default:
+        result = "Invalid Operation";
+    }
+
+    this.equation = result.toString();
+    document.getElementById("equation").value = this.equation;
+  }
+};
+
+// Number and decimal buttons
+document.querySelectorAll('button[name="input"]').forEach(button => {
+  button.addEventListener("click", (event) => {
+    calculator.updateEquation(event.target.value);
+  });
+});
+
+// Operation buttons (+, -, *, /)
+document.querySelectorAll('button[name="operation"]').forEach(button => {
+  button.addEventListener("click", (event) => {
+    calculator.updateEquation(` ${event.target.value} `);
+  });
+});
+
+// Equals (=) button
+document.querySelector('button[name="calculate"]').addEventListener("click", () => {
+  calculator.calculate();
+});
+
+// Clear (C) button
+document.querySelector('button[name="clear"]').addEventListener("click", () => {
+  calculator.clearEquation();
+});
+
